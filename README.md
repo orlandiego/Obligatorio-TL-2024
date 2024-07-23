@@ -1,4 +1,4 @@
-![Logo](./imagenes/Logo.png)
+# Taller de Linux
 
 ## 🔢 Tabla de contenidos:
 - [Propuesta](#propuesta)
