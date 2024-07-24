@@ -1,10 +1,19 @@
 # Taller de Linux
 
 ## 🔢 Tabla de contenidos:
+- [Taller de Linux](#taller-de-linux)
+  - [🔢 Tabla de contenidos:](#-tabla-de-contenidos)
+  - [Presentación del problema *`Letra`*](#presentación-del-problema-letra)
+    - [PARTE A](#parte-a)
+    - [PARTE B](#parte-b)
+    - [PARTE C](#parte-c)
+    - [PARTE D](#parte-d)
+  - [Contenido de este Repositorio](#contenido-de-este-repositorio)
 - [Propuesta](#propuesta)
 - [Implementación](#implementación)
   - [Servicios de AWS utilizados](#servicios-de-aws-utilizados)
     - [Load Balancer](#load-balancer)
+      - [Configuramos la persistencia de la conexión! para que no este pasando de un servidor a otro, sobre todo cuando ingresamos con usuario.](#configuramos-la-persistencia-de-la-conexión-para-que-no-este-pasando-de-un-servidor-a-otro-sobre-todo-cuando-ingresamos-con-usuario)
     - [Instancias EC2: Servidores Web 1a y 1b](#instancias-ec2-servidores-web-1a-y-1b)
         - [Bloque de configuración user\_data:](#bloque-de-configuración-user_data)
         - [Archivo Dockerfile utilizado para la construcción de la imagen:](#archivo-dockerfile-utilizado-para-la-construcción-de-la-imagen)
@@ -21,6 +30,16 @@
     - [Zonas de Disponibilidad](#zonas-de-disponibilidad)
     - [Ejemplo de Configuración Terraform](#ejemplo-de-configuración-terraform)
 - [Pruebas de funcionamiento](#pruebas-de-funcionamiento)
+      - [Despliegue sin errores de terraform apply](#despliegue-sin-errores-de-terraform-apply)
+      - [Autoscling - Detalles](#autoscling---detalles)
+      - [Launch Configuration](#launch-configuration)
+      - [Load Balance - Detalles](#load-balance---detalles)
+      - [Verificación de tablas en base de datos](#verificación-de-tablas-en-base-de-datos)
+      - [Verificando conexión ssh a servidores mediante clave keypair](#verificando-conexión-ssh-a-servidores-mediante-clave-keypair)
+      - [Verificamos el Fileserver Montado](#verificamos-el-fileserver-montado)
+      - [Verificamos la creación del BackUp-plan](#verificamos-la-creación-del-backup-plan)
+      - [Probamos el Load Balancer](#probamos-el-load-balancer)
+      - [Pruebas de Creación de Usuario](#pruebas-de-creación-de-usuario)
 - [Conclusiones](#conclusiones)
 - [Anexo](#anexo)
   - [Listado de la infraestructura creada *(extraído de terraform-docs)*](#listado-de-la-infraestructura-creada-extraído-de-terraform-docs)
@@ -36,32 +55,54 @@
 
 
 ## Presentación del problema *` Letra `*
-  > Una empresa especializada en la venta online de productos, cuenta con una infraestructura on-premise de mediano porte.
-  > Luego de realizar una campaña publicitaria cuyo principal objetivo fue la de incrementar sus ventas, el tráfico en su e-commerce se incrementó a valores nunca antes registrados, lo cual trajo cómo consecuencia que el sitio web de su e-commerce experimente una degradación notoria en la performance del servicio, provocando una mala experiencia de compra en sus usuarios.
-  >
-  >  La empresa ha decidido explorar la posibilidad de migrar parte de su carga de trabajo hacia la Cloud Pública de Amazon Web Services, y los servicios que ésta ofrece. El componente seleccionado es el frontend de la solución.
-  >
-  >  Para esto ha contratado a una consultora para el análisis, planificación y posterior implementación de los servicios.
-  >
-  >## Descripción de la Arquitectura existente
-  >- LoadBalancer HTTP/S
-  >- Dos servidores Web
-  >- Base de datos relacional
-  >- Servidor de documentos estáticos
-  >- Servidor de backup con persistencia *(Ante la pérdida de la VM, los backups no se pierden).*
-  >
-  >## Objetivo
-  >  Trabajar en cómo replicar esta misma solución en AWS.
-  >
+### PARTE A
+
+- Debe tener listo un servidor controlador para poder utilizar Ansible. Este servidor se preparará
+  durante el taller. Debe tener los paquetes y librerías necesarias para utilizar Ansible y Git. El
+  usuario que ejecute los automatismos debe contar con sus claves pública/privada SSH. Debe
+  contar con un repositorio de código en Github o en Gitlab para trabajar con su equipo.
+
+### PARTE B
+
+- Instalar 2 servidores, ambos con un disco de 13GB el siguiente diseño de particiones:
+  
+       ● Partición de 1GB para /boot
+       ● LVM de 7GB para /
+       ● LVM de 3GB para /var
+       ● LVM de 2GB para SWAP
+
+- Cada servidor tendrá 1CPU y 2 GB RAM.
+- Un servidor debe ser instalado con una distribución de la familia Red Hat (se sugiere CentOS Stream 8 o 9) y el otro debe tener Ubuntu 24.04
+- Cada servidor debe tener 2 interfaces de red, 1 conectada a NAT y la otra a una red Interna o Host-Only que le permita conectarse al servidor controlador con Ansible.
+- Cada equipo debe contar con un usuario NO root, con permisos para ejecutar comandos como administrador (ansible o sysadmin) y debe copiarse la clave pública del Servidor Controlador, para poder ejecutar los automatismos.
+
+### PARTE C
+
+Tareas a realizar mediante Ansible:
+
+1) En el servidor Red Hat debe instalar la aplicación ToDo usada para el obligatorio del curso
+Administración de Servidores Linux
+Instalar el JDK de Java, Tomcat y la aplicación con su configuración a la Base de Datos
+Tomcat debe iniciarse como servicio mediante SystemD. Los puertos usados por Tomcat deben estar
+habilitados en el Firewall
+
+2) En el servidor Ubuntu debe instalar la Base de Datos, y configurarla para la aplicación.
+Instalar el servidor MariaDB y asegurarlo con los procedimientos de mysql-secure-installation. Crear
+el usuario para la aplicación, y asegurar que el servidor esté levantado. En el Firewall debe estar
+permitido el acceso a la Base de Datos.
+
+### PARTE D
+
+Todo el contenido del obligatorio debe estar un un repositorio Git. El repositorio debe tener un
+README que describa cómo se usan los playbooks desarrollados.
+Debe incluir un directorio Documentación que contenga un documento con toda la descripción de las
+tareas realizadas y prueba de ejecución de los playbook y funcionamiento de las aplicaciones.
+El repositorio se puede descargar como Zip, y usarse como entrega.
 
 ---
 ## Contenido de este Repositorio
-  - ```despliegue/```
-    - Código de la Infraestructura automatizada en Terraform
-  - ```docker/```
-    - Archivo Dockerfile que se utilizó para la contrucción de la imagen
-  - ```documentos/```
-    - Letra del obligatorio y archivo de terraform-docs.
+  - ```Docs/```
+    - Letra el obligatorio y documentos extras
   - ```imagenes/```
     - Diagramas de arquitectura, screenshots de pruebas y logo del README.md.
   - ```./```

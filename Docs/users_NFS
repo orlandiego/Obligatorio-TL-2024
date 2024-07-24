@@ -1,0 +1,74 @@
+# T/P ALMACENAMIENTO
+
+## corrijo el manual que hay en el AULA, con comando que estaban mal.
+
+### Creo grupo y usuarios
+```linux
+sudo groupadd -g 2000 remoto 
+sudo useradd losorio -G remoto -m -u 2000
+sudo useradd jperez -G remoto -m -u 2001
+sudo useradd tnunez -G remoto -m -u 2002
+```
+### Creo un directorio
+
+```linux
+sudo mkdir /home/remoto
+```
+#### Me pide que sea con dos puntos ':' entre usuario y grupo
+
+```linux
+sudo chown losorio:remoto /home/remoto  
+```
+#### El 3 es permisos de grupo, el 7 permisos totales al grupo 'remoto', el otro 7 permisos totales a todo y el 0 que solo los dueños pueden borrar.-
+
+```linux
+sudo chmod 3770 /home/remoto
+```   
+
+
+## 3.  En el servidor Ubuntu instalar el servidor NFS 
+  ```linux
+  apt install nfs-kernel-server 
+  ```
+
+## 4. Agregar al archivo /etc/exports la siguiente línea
+   ```linux
+   /home/remoto *(rw,root_squash) 
+   ```
+
+## 5. Reiniciar el servidor NFS 
+   ```
+   systemctl restart nfs-server
+   ```
+
+## 6. Abrir puerto 2049 en el firewall 
+    ```linux
+    ufw allow in on enp0s8 from 192.168.56.0/24 to any port 2049
+    ```
+
+## 7. En el servidor CentOS, verificar que llegamos al NFS 
+   ```linux
+   showmount -e ubuntusrv 
+   ```
+
+## 8.  Crear un directorio /grupos 
+   
+   - mkdir /grupos 
+   
+## 9.  Instalar autofs 
+    
+   - dnf install autofs 
+
+## 10. Configurar el /etc/auto.master 
+    
+   - /grupos /etc/auto.gruposT/P Almacenamiento 
+
+## 11. En /etc/auto.grupos
+
+   - remoto-fstype=nfs4,nodev,nosuid,asyc 192.168.56.20:/home/remoto 
+
+## 12. Iniciar, y habilitar, autofs 
+    
+   - systemctl enable autofs --now 
+
+## 13. Probar el acceso al directorio, crear archivos, etc.
