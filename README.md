@@ -1,4 +1,4 @@
-![LOGO](./imagenes/logo.png)
+![LOGO][def2]
 
 # Taller de Linux
 
@@ -13,9 +13,9 @@
   - [Contenido de este Repositorio](#contenido-de-este-repositorio)
 - [Propuesta](#propuesta)
 - [Implementación](#implementación)
-  - [Nomenclatura utilizada](#nomenclatura-utilizada)
-    - [Controller y Servidores](#controller-y-servidores)
-      - [Configuramos la persistencia de la conexión! para que no este pasando de un servidor a otro, sobre todo cuando ingresamos con usuario.](#configuramos-la-persistencia-de-la-conexión-para-que-no-este-pasando-de-un-servidor-a-otro-sobre-todo-cuando-ingresamos-con-usuario)
+  - [INVENTARIO](#inventario)
+    - [Controller](#controller)
+      - [Generamos el usuario app-admin para gestionar todos los servidores con permiso de administrador.](#generamos-el-usuario-app-admin-para-gestionar-todos-los-servidores-con-permiso-de-administrador)
     - [Instancias EC2: Servidores Web 1a y 1b](#instancias-ec2-servidores-web-1a-y-1b)
         - [Bloque de configuración user\_data:](#bloque-de-configuración-user_data)
         - [Archivo Dockerfile utilizado para la construcción de la imagen:](#archivo-dockerfile-utilizado-para-la-construcción-de-la-imagen)
@@ -45,12 +45,6 @@
 - [Conclusiones](#conclusiones)
 - [Anexo](#anexo)
   - [Listado de la infraestructura creada *(extraído de terraform-docs)*](#listado-de-la-infraestructura-creada-extraído-de-terraform-docs)
-    - [Providers](#providers)
-    - [Modules](#modules)
-    - [Resources](#resources)
-    - [Variables](#variables)
-      - [Inputs](#inputs)
-      - [Outputs](#outputs)
   - [Referencias externas](#referencias-externas)
 ---
 
@@ -136,7 +130,7 @@ El repositorio se puede descargar como Zip, y usarse como entrega.
 
   Todos estos recursos de AWS se desplegarán utilizando la herramienta Terraform, cuyos archivos están disponibles en la carpeta [```despliegue```](https://github.com/roxdzp/ObligatorioCloud2024/tree/main/despliegue)
 
-  ![Archivos_de_Despliegue](./imagenes/despliegue.jpg)
+  ![Despliegue][def]
 
 ## INVENTARIO
 
@@ -519,7 +513,8 @@ https://youtu.be/6VQnj_c17d4
 
 
 # Conclusiones
-La migración a la nube permitirá escalar los recursos según la demanda y mejorar la disponibilidad y la performance del e-commerce.
+
+hiiugiuh
 
 
 ---
@@ -527,106 +522,17 @@ La migración a la nube permitirá escalar los recursos según la demanda y mejo
 # Anexo
 
   ## Listado de la infraestructura creada *(extraído de terraform-docs)*
-### Providers
 
-| Nombre | Versión |
-|------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 5.54.1 |
-| <a name="provider_local"></a> [local](#provider\_local) | 2.5.1 |
-| <a name="provider_tls"></a> [tls](#provider\_tls) | 4.0.5 |
+hihiuhuh
 
-### Modules
-
-No se usaron módulos.
-
-### Resources
-
-| Nombre | Tipo |
-|------|------|
-| [aws_autoscaling_group.autoscaling](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/autoscaling_group) | resource |
-| [aws_backup_plan.backup_plan_efs](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/backup_plan) | resource |
-| [aws_backup_selection.efs_backup](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/backup_selection) | resource |
-| [aws_backup_vault.example](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/backup_vault) | resource |
-| [aws_db_instance.db_web](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/db_instance) | resource |
-| [aws_db_subnet_group.subnet_db](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/db_subnet_group) | resource |
-| [aws_default_route_table.route_table](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/default_route_table) | resource |
-| [aws_efs_file_system.file-srv-docs](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/efs_file_system) | resource |
-| [aws_efs_mount_target.file-srv-1a](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/efs_mount_target) | resource |
-| [aws_efs_mount_target.file-srv-1b](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/efs_mount_target) | resource |
-| [aws_internet_gateway.internet_gateway](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/internet_gateway) | resource |
-| [aws_key_pair.key_srv](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/key_pair) | resource |
-| [aws_launch_configuration.autoscaling_imagen](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/launch_configuration) | resource |
-| [aws_lb.load_balancer](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb) | resource |
-| [aws_lb_listener.lb-listener](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb_listener) | resource |
-| [aws_lb_listener_rule.lb-listener-rule](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb_listener_rule) | resource |
-| [aws_lb_target_group.lb-tg](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb_target_group) | resource |
-| [aws_security_group.acceso_3306_sg](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group) | resource |
-| [aws_security_group.acceso_web](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group) | resource |
-| [aws_security_group.lb-sg](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group) | resource |
-| [aws_subnet.subnet_privada1a](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/subnet) | resource |
-| [aws_subnet.subnet_privada1b](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/subnet) | resource |
-| [aws_vpc.vpc_web](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc) | resource |
-| [local_file.key_srv](https://registry.terraform.io/providers/hashicorp/local/latest/docs/resources/file) | resource |
-| [tls_private_key.rsa](https://registry.terraform.io/providers/hashicorp/tls/latest/docs/resources/private_key) | resource |
-| [aws_caller_identity.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/caller_identity) | data source |
-
-### Variables
-#### Inputs
-
-| Nombre | Descripción | Tipo | Valor por defecto | Requerido |
-|------|-------------|------|---------|:--------:|
-| <a name="input_az-1a"></a> [az-1a](#input\_az-1a) | Availability zone 1 | `string` | `"us-east-1a"` | no |
-| <a name="input_az-1b"></a> [az-1b](#input\_az-1b) | Availability zone 2 | `string` | `"us-east-1b"` | no |
-| <a name="input_db_password"></a> [db\_password](#input\_db\_password) | Ingresar password por linea de comando durante la ejecución del terraform | `string` | n/a | yes |
-| <a name="input_region"></a> [region](#input\_region) | La region AWS done crear la instancia. | `string` | `"us-east-1"` | no |
-| <a name="input_subnet_privada1a_cidr"></a> [subnet\_privada1a\_cidr](#input\_subnet\_privada1a\_cidr) | Subred para Instancia Web1. | `string` | `"10.0.1.0/24"` | no |
-| <a name="input_subnet_privada1b_cidr"></a> [subnet\_privada1b\_cidr](#input\_subnet\_privada1b\_cidr) | Subred para Instancia Web2. | `string` | `"10.0.2.0/24"` | no |
-| <a name="input_vpc_cidr"></a> [vpc\_cidr](#input\_vpc\_cidr) | Subred para VPC. | `string` | `"10.0.0.0/16"` | no |
-
-#### Outputs
-
-| Nombre | Descripción |
-|------|-------------|
-| <a name="output_db-address"></a> [db-address](#output\_db-address) | Devuelve el endpoint de la base de datos, sirve para editar el config.php. |
-| <a name="output_db-id"></a> [db-id](#output\_db-id) | Devuelve el ID de la base de datos. |
-| <a name="output_file-srv-docs-arn"></a> [file-srv-docs-arn](#output\_file-srv-docs-arn) | Devuelve el nombre arn para verificar el backup plan |
-| <a name="output_file-srv-docs-dns_name"></a> [file-srv-docs-dns\_name](#output\_file-srv-docs-dns\_name) | Devuelve el nombre DNS del sistema de archivos EFS, es útil para acceder al sistema de archivos desde otras instancias o servicios |
-| <a name="output_file-srv-docs-id"></a> [file-srv-docs-id](#output\_file-srv-docs-id) | Devuelve el ID del servidor de Documentos  `file-srv-docs` |
-| <a name="output_load_balancer-dns_name"></a> [load\_balancer-dns\_name](#output\_load\_balancer-dns\_name) | Devuelve el nombre DNS del load balancer. Sirve para conectarnos al load balancer en el navegador y testear/usar a la app. |
-
----
-
-
-
----
 ## Referencias externas
 
-- [Markdown Cheat Sheet](<https://aulas.ort.edu.uy/pluginfile.php/909846/mod_resource/content/1/Markdown%20Cheat%20Sheet.pdf>)
-
-- [aws cli Cheat Sheet](<https://gist.github.com/apolloclark/b3f60c1f68aa972d324b>)
-
-- [Terraform-CheatSheet](<https://aulas.ort.edu.uy/pluginfile.php/674328/mod_resource/content/1/Terraform-CheatSheet_v1.pdf>)
-
-- [Using Amazon S3 with the AWS Command Line Interface](<https://aulas.ort.edu.uy/pluginfile.php/667926/mod_resource/content/1/AWS%20Command%20Line%20Interface%20S3.pdf>)
-
-- [Managing AWS Application Load Balancer (ALB) Using Terraform examples](https://github.com/hands-on-cloud/managing-alb-using-terraform)
-
-- [Como validar credenciales en AWS](https://registry.terraform.io/providers/hashicorp/aws/latest/docs#environment-variables)
-
-- [Documentación oficial de Terraform](https://registry.terraform.io)
-
-- [Keypair usando Terraform](https://www.youtube.com/watch?v=lJbf0J9rRzE)
-
-- [aws_key_pair Terraform](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/key_pair)
-
-- [tls_private_key](https://registry.terraform.io/providers/hashicorp/tls/latest/docs/resources/private_key)
-
-- [local_file](https://registry.terraform.io/providers/hashicorp/local/latest/docs/resources/file)
+- [Repo en GIT](<https://github.com/orlandiego/Obligatorio-TL-2024>)
 
 - ***Material de clase y ejercicios realizados**: Material del curso, reutilización de codigo de los trabajos realizados*
 
-- ***Consultas en Copilot**: Consultas en Copilot sobre probelmas en el codigo para ejecutar desde fuera de AWS learning lab*
-
-
-
 ---
+
+
+[def]: ./imagenes/despliegue.jpg
+[def2]: ./imagenes/logo.png
