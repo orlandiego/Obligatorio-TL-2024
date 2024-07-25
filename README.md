@@ -1,3 +1,5 @@
+![LOGO](./imagenes/logo.png)
+
 # Taller de Linux
 
 ## 🔢 Tabla de contenidos:
@@ -11,8 +13,8 @@
   - [Contenido de este Repositorio](#contenido-de-este-repositorio)
 - [Propuesta](#propuesta)
 - [Implementación](#implementación)
-  - [Servicios de AWS utilizados](#servicios-de-aws-utilizados)
-    - [Load Balancer](#load-balancer)
+  - [Nomenclatura utilizada](#nomenclatura-utilizada)
+    - [Controller y Servidores](#controller-y-servidores)
       - [Configuramos la persistencia de la conexión! para que no este pasando de un servidor a otro, sobre todo cuando ingresamos con usuario.](#configuramos-la-persistencia-de-la-conexión-para-que-no-este-pasando-de-un-servidor-a-otro-sobre-todo-cuando-ingresamos-con-usuario)
     - [Instancias EC2: Servidores Web 1a y 1b](#instancias-ec2-servidores-web-1a-y-1b)
         - [Bloque de configuración user\_data:](#bloque-de-configuración-user_data)
@@ -130,29 +132,28 @@ El repositorio se puede descargar como Zip, y usarse como entrega.
   - Un fileserver implementado en EFS para el almacenamiento de archivos fijos.
   - AWS-Backup para el plan de almacenamiento del EFS, y snapshots para el RDS.
   
-    ![Arquitectura](./imagenes/AWS.png)
+
 
   Todos estos recursos de AWS se desplegarán utilizando la herramienta Terraform, cuyos archivos están disponibles en la carpeta [```despliegue```](https://github.com/roxdzp/ObligatorioCloud2024/tree/main/despliegue)
 
-  ![Archivos_Terraform](./imagenes/archivos_despliegue_terraform.jpg)
+  ![Archivos_de_Despliegue](./imagenes/despliegue.jpg)
 
-## Servicios de AWS utilizados
+## INVENTARIO
 
-### Load Balancer
+### Controller
 
-- **Descripción**: Distribuye el tráfico entrante entre las instancias EC2.
-- **Recursos AWS**: `aws_lb`, `aws_security_group`, `aws_lb_target_group`, `aws_lb_listener`, `aws_lb_listener_rule`.
+- **Descripción**: El controller despliega ansible en los servidores.
 
-| Recurso AWS                    | Name              | Descripción                                    | Subred          | SecutityGroup      |
+
+| Servidor                  | Linux              | Descripción                                    | Subred          |                   |
 |--------------------------------|-------------------|------------------------------------------------|-----------------|--------------------|
-| aws_lb                         | lb_web            | Load Balancer WEB                              | vpc_web         | -                  |
-| aws_lb_target_group            | lb_tg             | Load Balancer WEB                              | vpc_web         | -                  |
-| aws_lb_listener                | lb-listener       | Load Balancer WEB                              | vpc_web         | -                  |
-| ws_lb_listener_rule            | lb-listener-rule  | Load Balancer WEB                              | vpc_web         | -                  |
+| Controller                     | Centos 9 Stream          | Despliega Ansible                              | 192.168.56.10         | -                  |
+| WServidor01           | Centos 9 Stream              |  Aplicación ToDo                           | 192.168.56.20        | -                  |
+| DBServidor01                | Ubuntu      | Base de datos                              | 192.168.56.30        | -                  |
 
-Anteriormente ulizabamos  `aws_alb_target_group_attachment` para cargar agregar las instancias al balanceador, pero ahora ya lo definimos en el autoscaling group
 
-#### Configuramos la persistencia de la conexión! para que no este pasando de un servidor a otro, sobre todo cuando ingresamos con usuario.
+
+#### Generamos el usuario app-admin para gestionar todos los servidores con permiso de administrador.
 
  ```markdown
   stickiness {
