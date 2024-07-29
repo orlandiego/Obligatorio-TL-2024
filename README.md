@@ -79,7 +79,7 @@ El repositorio se puede descargar como Zip, y usarse como entrega.
   - ```./```
     - Archivos .gitignore y README.md.
 
-![DESPLIEGUE](./imagenes/despliegue.jpg)
+![DESPLIEGUE](./Imagenes/despliegue.jpg)
 
 
 ---
