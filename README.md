@@ -1,4 +1,4 @@
-![LOGO](./imagenes/logo.png)
+![logo](./imagenes/logo.png)
 
 # Taller de Linux
 
