@@ -1,10 +1,9 @@
-![logo](./imagenes/logo.png)
+![Logo](./imagenes/logo.png)
 
 # Taller de Linux
 
 ## 🔢 Tabla de contenidos:
 - [Taller de Linux](#taller-de-linux)
-  - [🔢 Tabla de contenidos:](#-tabla-de-contenidos)
   - [Presentación del problema *`Letra`*](#presentación-del-problema-letra)
     - [PARTE A](#parte-a)
     - [PARTE B](#parte-b)
