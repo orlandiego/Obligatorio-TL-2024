@@ -126,13 +126,6 @@ En este playbook se realizan las siguientes tareas:
 2. - Se instala el JDK de Java.
 3. - Se crea un usuario para Tomcat.
 4. - Se descarga y extrae Tomcat en el directorio /opt/.
-Se configuran los permisos adecuados para Tomcat.
-Se crea un archivo de servicio para Tomcat en SystemD.
-Se recarga SystemD para aplicar los cambios y se habilita y arranca el servicio Tomcat.
-Se abren los puertos 8080 y 8443 en el firewall.
-Se despliega la aplicación ToDo en Tomcat.
-Se configura la aplicación ToDo mediante un archivo de configuración.
-Se reinicia Tomcat para aplicar los cambios.
 
 #### Bloque de configuración (Centos):
 
