@@ -126,6 +126,9 @@ En este playbook se realizan las siguientes tareas:
 2. - Se instala el JDK de Java.
 3. - Se crea un usuario para Tomcat.
 4. - Se descarga y extrae Tomcat en el directorio /opt/.
+5. - Se abren los puertos 8080 y 8443 en el firewall.
+6. - Se despliega la aplicación ToDo en Tomcat.
+7. - Se configura la aplicación ToDo mediante un archivo de configuración.
 
 #### Bloque de configuración (Centos):
 
