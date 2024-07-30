@@ -76,4 +76,17 @@ ansible -i 192.168.56.20, all -m raw -a "dpkg -l | grep  apache2" --become --ask
 
 -- Vamos a necestar un **INVENTARIO**
 
+Creamos una carpeta /inventory  y en ella agregamos por ejemplo los servidores
+Creamos un archivo de hardening para el deplieqgue de ansible
 
+Ejecutamos el Playbook de ansible:
+
+```
+ ansible-playbook -i inventory/servidores hardening.yml --ask-become-pass
+```
+
+#### Captura de proceso:
+
+![Prueba01](/Imagenes/pruebas/Prueba01_hardening.jpg)
+
+- Me pide contraseña de sadmin y contraseña de SSH generada.

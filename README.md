@@ -4,7 +4,6 @@
 
 ## 🔢 Tabla de contenidos:
 - [Taller de Linux](#taller-de-linux)
-  - [🔢 Tabla de contenidos:](#-tabla-de-contenidos)
   - [Presentación del problema *`Letra`*](#presentación-del-problema-letra)
     - [PARTE A](#parte-a)
     - [PARTE B](#parte-b)
@@ -113,7 +112,8 @@ El repositorio se puede descargar como Zip, y usarse como entrega.
 
 #### Usuario Admin
 
-- Generamos el usuario **app-admin** para gestionar todos los servidores con permiso de administrador.
+- Generamos el usuario **sadmin** para gestionar todos los servidores con permiso de administrador.
+- Generamos la clave publica y privada
 - Copio la clave publica a los servidores Web y DB
 
  ```markdown
