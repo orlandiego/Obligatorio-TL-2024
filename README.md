@@ -4,6 +4,7 @@
 
 ## 🔢 Tabla de contenidos:
 - [Taller de Linux](#taller-de-linux)
+  - [🔢 Tabla de contenidos:](#-tabla-de-contenidos)
   - [Presentación del problema *`Letra`*](#presentación-del-problema-letra)
     - [PARTE A](#parte-a)
     - [PARTE B](#parte-b)
@@ -11,14 +12,17 @@
     - [PARTE D](#parte-d)
   - [Contenido de este Repositorio](#contenido-de-este-repositorio)
 - [Propuesta](#propuesta)
-- [Implementación](#implementación)
-  - [Controller](#controller)
-    - [Usuario Admin](#usuario_Admin)
-- [Playbook Centos](#playbook-en-el-servidor-cent0s9)
-  - [Configuración](#bloque-de-configuración-centos)
-- [Platbook Ubuntu](#playbook-en-el-servidor-ubuntu-)
-  - [Configuración](#bloque-de-configuración-ubuntu)
- - [Pruebas de funcionamiento](#pruebas-de-funcionamiento)
+  - [Implementación](#implementación)
+    - [Controller](#controller)
+      - [Nomenclatura utilizada](#nomenclatura-utilizada)
+      - [Usuario Admin](#usuario-admin)
+  - [Playbook en el servidor Cent0s9](#playbook-en-el-servidor-cent0s9)
+    - [Tareas a realizar](#tareas-a-realizar)
+      - [Bloque de configuración (Centos):](#bloque-de-configuración-centos)
+  - [Playbook en el servidor Ubuntu 🚀](#playbook-en-el-servidor-ubuntu-)
+      - [Bloque de configuración (Ubuntu):](#bloque-de-configuración-ubuntu)
+- [Pruebas de funcionamiento](#pruebas-de-funcionamiento)
+  - [Despliegue sin errores ...](#despliegue-sin-errores-)
 - [Conclusiones](#conclusiones)
 - [Anexo](#anexo)
   - [Referencias externas](#referencias-externas)
@@ -101,18 +105,20 @@ El repositorio se puede descargar como Zip, y usarse como entrega.
 
 | Servidor                  | Linux              | Descripción                                    | Subred          |                   |
 |--------------------------------|-------------------|------------------------------------------------|-----------------|--------------------|
-| Controller                     | Centos 9 Stream          | Despliega Ansible                              | 192.168.56.10         | -                  |
-| WebServer           | Centos 9 Stream              |  Aplicación ToDo                           | 192.168.56.20        | -                  |
-| DBServer                | Ubuntu      | Base de datos                              | 192.168.56.30        | -                  |
+| Controller                     | Centos 9 Stream          | Despliega Ansible                              | 192.168.56.*  (DHCP en el rango)       | -                  |
+| WebServer           | Centos 9 Stream              |  Aplicación ToDo                           | 192.168.56.40        | -                  |
+| DBServer                | Ubuntu      | Base de datos                              | 192.168.56.50        | -                  |
 
 
 
 #### Usuario Admin
 
 - Generamos el usuario **app-admin** para gestionar todos los servidores con permiso de administrador.
+- Copio la clave publica a los servidores Web y DB
 
  ```markdown
-sudo adduser
+ssh-copy-id 192.168.56.40
+ssh-copy-id 192.168.56.50
  ```
 
 ## Playbook en el servidor Cent0s9

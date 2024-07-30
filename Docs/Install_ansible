@@ -1,0 +1,79 @@
+# instalo Ansible utilizando pip
+
+**sudo dnf install python3-pip** // si tenes problemas para instalar pip
+
+**instalo pipx**
+- pip install pipx
+
+**Me asegura el camino de la instalación**  
+- pipx ensurepath
+
+**Instalo Ansible-core**
+- pipx install ansible-core
+   
+- pipx inject ansible-core argcomplete
+
+**Buenas practicas para escribir mi Playbook**
+- pipx inject ansible-core ansible-lint     
+
+**Agrego la activación de la sintaxis de ansible en /home/sadmin/.bash_completion**
+- activate-global-python-argcomplete --user
+  
+---
+### Con esto instalo ansible en Cent0s 9
+
+Verifico que puedo acceder y ejecutar un modulo en el servidor remoto
+
+```
+`ansible -i 192.168.56.20, all -m ping`   `--ask-vault-pass`
+```
+
+ para que me pida la contraseña de la clave **"OXt.XXXX"**
+
+ssh ansible@192.168.56.20 // otra forma de conectarme
+
+Copio la clave publica al servidor remoto para poder ingresar
+
+```ssh
+`ssh-copy-id 192.168.56.20`    me pide la contraseña de admin
+```
+---
+### Instalamos apache en el servicor Ubuntu
+
+Instalamos Apache en el servidor Ubuntu como prueba:
+
+```ansible
+ansible -i 192.168.56.20, all -m apt -a "name=apache2 state=present" --become --ask-become-pass
+```
+
+-  `-i` es el inventario
+-  `192.168.56.20` es el servidor
+-  `all` ejecuto en todos
+-  `-a` argumentos
+-  `name=apache2` nombre de la aplicación en dicho servidor
+-  `state=present` estado de la aplicación en dicho servidor
+-  Ejecuto como sudo en el remoto `--become` y pregunto la contraseña `--ask-become-pass` 
+  
+--- 
+#### Probamos instalar por linea de comando tambien
+
+```
+ansible -i 192.168.56.20, all -m command -a "apt install apache2" --become --ask-become-pass
+```
+---
+#### Probamos instalar por shell o raw
+```
+ansible -i 192.168.56.20, all -m shell-a "dpkg -l | grep  apache2" --become --ask-become-pass
+```
+
+```
+ansible -i 192.168.56.20, all -m raw -a "dpkg -l | grep  apache2" --become --ask-become-pass
+```
+
+---
+
+
+
+-- Vamos a necestar un **INVENTARIO**
+
+
