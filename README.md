@@ -188,6 +188,7 @@ hiiugiuh
 ## Referencias externas
 
 - [Repo en GIT](<https://github.com/orlandiego/Obligatorio-TL-2024>)
+- [Ansible Docs](https://docs.ansible.com/ansible/latest/collections/ansible/builtin/lineinfile_module.html)
 
 - ***Material de clase y ejercicios realizados**: Material del curso, reutilización de codigo de los trabajos realizados*
 
