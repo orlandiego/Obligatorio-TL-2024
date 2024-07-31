@@ -4,6 +4,7 @@
 
 ## 🔢 Tabla de contenidos:
 - [Taller de Linux](#taller-de-linux)
+  - [🔢 Tabla de contenidos:](#-tabla-de-contenidos)
   - [Presentación del problema *`Letra`*](#presentación-del-problema-letra)
     - [PARTE A](#parte-a)
     - [PARTE B](#parte-b)
@@ -128,13 +129,11 @@ Al ....
 
 En este playbook se realizan las siguientes tareas:
 
-1. - Se actualizan todos los paquetes e instalan las dependencias necesarias.
-2. - Se instala el JDK de Java.
-3. - Se crea un usuario para Tomcat.
-4. - Se descarga y extrae Tomcat en el directorio /opt/.
-5. - Se abren los puertos 8080 y 8443 en el firewall.
-6. - Se despliega la aplicación ToDo en Tomcat.
-7. - Se configura la aplicación ToDo mediante un archivo de configuración.
+1. - name: Instalo el JAVA SDK
+2. - name: Bajo el Tomcat y extrae en el directorio /opt/.
+3. - name: abrir los puertos 8080 y 8443 en el firewall.
+4. - name: Despliegue de la aplicación ToDo.war en Tomcat.
+5. - name: Se configura la aplicación ToDo.war mediante un archivo de configuración.
 
 #### Bloque de configuración (Centos):
 
@@ -188,7 +187,9 @@ hiiugiuh
 ## Referencias externas
 
 - [Repo en GIT](<https://github.com/orlandiego/Obligatorio-TL-2024>)
+- [Git emverdes](https://github.com/emverdes/docker-tomcat-tutorial)
 - [Ansible Docs](https://docs.ansible.com/ansible/latest/collections/ansible/builtin/lineinfile_module.html)
+- [Hacer Readme](https://www.makeareadme.com)
 
 - ***Material de clase y ejercicios realizados**: Material del curso, reutilización de codigo de los trabajos realizados*
 
