@@ -26,24 +26,42 @@ $ ansible-playbook -i inventario/servidores site.yml
 ## Organización de las carpetas de trabajo
 
 ```
-Documentos/
+Obligatorio-TL-2024
 ├── Collections/
 │   └── requiremets.yml
+├── Documentos/
 ├── Files/
 │   ├── todo.war
-│   └── todo.sql
+│   ├── todo.sql
+│   └── tomcat.conf
 ├── inventory/
-│   ├── groupvars/
+│   ├── group_vars/
 │   │   ├── centos.yml
 │   │   └── ubuntu.yml
-│   ├── hostvars/
+│   ├── host_vars/
 │   │   ├── Webserver.yml
 │   │   └── DBServer.yml
 │   └── servidores.toml
 ├── webserver.yml
 ├── database.yml
 └── README.md
-```
 
-## License
-MIT
+```
+## Referencias
+
+### Referencias utilizadas para el despliegue del webserver
+
+#### Primero instalo JAVA
+    - name: Instalo el JAVA SDK
+
+#### Primero bajo y extraigo el Tomcat
+    - name: Bajo el Tomcat y extrae en el directorio /opt/.
+
+#### abro puertos necesarios
+    - name: abrir los puertos 8080 y 8443 en el firewall.
+
+#### Despliego app todo.war
+    - name: Despliegue de la aplicación ToDo.war en Tomcat.
+
+#### cargo la configuración de todo.war
+    - name: Se configura la aplicación ToDo.war mediante un archivo de configuración.
