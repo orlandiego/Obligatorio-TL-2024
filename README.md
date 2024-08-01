@@ -7,6 +7,7 @@ Instalamos Ansible usando pipx
 # dnf install python3-pip
 $ pip install pipx
 $ pipx ensurepath
+$ pipx install ansible-lint
 ```
 ## Modulos para poder ejecutar ansible
 
@@ -61,6 +62,30 @@ Obligatorio-TL-2024
 └── README.md
 
 ```
+
+## Despliegue de playbook en el webserver
+
+Para deplegar el playbook dy montar el `webserver` tengo que ejecutar lo siguiente en mi controller
+```
+$ ansible-playbook -i inventario/servidores.toml webserver.yml
+```
+
+
+## Despliegue del playbook en el dbserver
+
+Para poder desplegar este playbook debemos instalar las herramientas necesarias para poder manejar base de datos
+
+```
+sudo dnf install mysql
+pipx inject ansible-core pymysql
+```
+
+Para deplegar el playbook dy montar el `dbserver` tengo que ejecutar lo siguiente en mi controller
+
+```
+$ ansible-playbook -i inventario/servidores.toml database.yml
+```
+
 ## Referencias
 
 ### Para acceder por SSH y establecer IP Fija
