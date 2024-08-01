@@ -13,6 +13,12 @@
       line: PermitRootLogin no
     notify: Reinicio servidor ssh
     register: results_sshd
+    
+  - name: Inyecto la clave publica SSH en los servidores
+    ansible.posix.authorized_key:
+      user: sadmin
+      state: present
+      key: "{{ lookup('file', '/home/sadmin/.ssh/id_rsa.pub') }}"
 
   - name: Ver resultado de tarea anterior
     ansible.builtin.debug:

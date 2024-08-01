@@ -8,20 +8,31 @@ Instalamos Ansible usando pipx
 $ pip install pipx
 $ pipx ensurepath
 ```
-## Modulos instalados para poder ejecutar ansible
+## Modulos para poder ejecutar ansible
+
+- Estos modulos debemos instalar para poder ejecutar ansible, los mismos los cargamos en la carpeta Collections con el nombre de `requirements.yml`
+
 ```
 collections:
   - name: ansible.posix
   - name: community.general
   - name: community.mysql
 ```
+### Instalamos estas dependencias ejecutando:
+```
+ ansible-galaxy collection install -r collections/requirements.yml 
+```
+
+
 ## 
 
 
 ## Ejecución
 ```
-$ ansible-playbook -i inventario/servidores site.yml
+$ ansible-playbook -i inventario/servidores.toml hardening.yml
 ```
+En este primer despliegue preparo los servidores para recibir conexiones ssh y establecer su IP como fija.
+
 
 ## Organización de las carpetas de trabajo
 
@@ -31,9 +42,9 @@ Obligatorio-TL-2024
 │   └── requiremets.yml
 ├── Documentos/
 ├── Files/
-│   ├── todo.war
-│   ├── todo.sql
-│   └── tomcat.conf
+│   ├── todo.dql
+│   ├── tomcat.conf
+│   └── virtualhost.conf
 ├── inventory/
 │   ├── group_vars/
 │   │   ├── centos.yml
@@ -42,15 +53,23 @@ Obligatorio-TL-2024
 │   │   ├── Webserver.yml
 │   │   └── DBServer.yml
 │   └── servidores.toml
+├── Template/
+│   └── todo.war
 ├── webserver.yml
 ├── database.yml
+|   hardening.yml
 └── README.md
 
 ```
 ## Referencias
 
-### Referencias utilizadas para el despliegue del webserver
+### Para acceder por SSH y establecer IP Fija
 
+[Modulo para enviar clae publica SSH](https://docs.ansible.com/ansible/latest/collections/ansible/posix/authorized_key_module.html)
+
+---
+### Referencias utilizadas para el despliegue del webserver
+---
 #### Primero instalo JAVA
     - name: Instalo el JAVA SDK
 
@@ -65,3 +84,6 @@ Obligatorio-TL-2024
 
 #### cargo la configuración de todo.war
     - name: Se configura la aplicación ToDo.war mediante un archivo de configuración.
+---
+### Referencias utilizadas para el despliegue de la base de datos
+---
