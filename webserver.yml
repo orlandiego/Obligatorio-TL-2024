@@ -53,12 +53,12 @@
 
       ## verifico que exista un directorio donde cargar la configuración de todo.war
     - name: Crear directorio para la configuración de Tomcat si no existe
-          ansible.builtin.file:
-            path: /var/lib/tomcat/conf/Catalina/localhost
-            state: directory
-            owner: tomcat
-            group: tomcat
-            mode: '0755'
+      ansible.builtin.file:
+        path: /var/lib/tomcat/conf/Catalina/localhost
+        state: directory
+        owner: tomcat
+        group: tomcat
+        mode: '0755'
 
       ## cargo la configuración de todo.war
     - name: Configurar la base de datos en la aplicación ToDo
