@@ -1,0 +1,54 @@
+---
+- name: Instalar MariaDB en server02
+  hosts: server02
+  become: yes
+  vars:
+    db_root_password: "segura_contraseña_root"
+    db_user: "todo_user"
+    db_user_password: "segura_contraseña_user"
+    db_name: "DatabaseTSL"
+  tasks:
+    - name: Instalar MariaDB
+      apt:
+        name: mariadb-server
+        state: present
+        update_cache: yes
+
+    - name: Iniciar y habilitar el servicio de MariaDB
+      systemd:
+        name: mariadb
+        state: started
+        enabled: yes
+
+    - name: Asegurar MariaDB con mysql_secure_installation
+      expect:
+        command: mysql_secure_installation
+        responses:
+          'Enter current password for root (enter for none):': ''
+          'Set root password? \[Y/n\]': 'Y'
+          'New password:': "{{ db_root_password }}"
+          'Re-enter new password:': "{{ db_root_password }}"
+          'Remove anonymous users? \[Y/n\]': 'Y'
+          'Disallow root login remotely? \[Y/n\]': 'Y'
+          'Remove test database and access to it? \[Y/n\]': 'Y'
+          'Reload privilege tables now? \[Y/n\]': 'Y'
+
+    - name: Crear base de datos
+      mysql_db:
+        name: "{{ DatabaseTSL }}"
+        state: present
+
+    - name: Crear usuario de base de datos
+      mysql_user:
+        name: "{{ sysadmin }}"
+        password: "{{ tlxadmin }}"
+        priv: "{{ DatabaseTSL }}.*:ALL"
+        host: "%"
+        state: present
+
+    - name: Configurar el firewall para MariaDB
+      ufw:
+        rule: allow
+        name: 'MySQL'
+        port: '3306'
+        proto: tcp

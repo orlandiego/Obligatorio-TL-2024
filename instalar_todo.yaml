@@ -1,0 +1,47 @@
+---
+- name: Instalar todo en server01
+  hosts: server01
+  become: yes
+  vars:
+    db_user: "sysadmin"
+    db_password: "tlxadmin"
+    db_host: "localhost"
+    db_name: "DatabaseTSL"
+  tasks:
+    - name: Instalar Java JDK
+      yum:
+        name: java-1.8.0-openjdk
+        state: present
+
+    - name: Instalar Tomcat
+      yum:
+        name: tomcat
+        state: present
+
+    - name: Iniciar y habilitar Tomcat service
+      systemd:
+        name: tomcat
+        state: started
+        enabled: yes
+
+    - name: Habilitar puerto 8080 en el firewall para Tomcat
+      ansible.posix.firewalld:
+        port: 8080/tcp
+        state: enabled
+        immediate: yes
+        permanent: yes
+
+    - name: Copiar la aplicación ToDo a directorio de Tomcat
+      copy:
+        src: /home/sysadmin/Downloads/todo.war
+        dest: /var/lib/tomcat/webapps/todo.war
+
+    - name: Configurar la base de datos en la aplicación ToDo
+      template:
+        src: /home/sysadmin/Downloads/todo_db_config.xml.j2
+        dest: /var/lib/tomcat/conf/Catalina/localhost/todo.xml
+
+    - name: Reiniciar Tomcat para desplegar todo
+      systemd:
+        name: tomcat
+        state: restarted
