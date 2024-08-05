@@ -54,7 +54,7 @@
       ## cargo la configuración de todo.war
     - name: Configurar la base de datos en la aplicación ToDo
       ansible.builtin.template:
-        src: ./files/todo_db_config.xml.j2
+        src: ./template/todo_db_config.xml.j2
         dest: /var/lib/tomcat/conf/Catalina/localhost/todo.xml
 
     - name: Reiniciar Tomcat para desplegar todo
