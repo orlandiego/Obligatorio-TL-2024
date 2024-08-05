@@ -33,7 +33,7 @@
 
     - name: Copiar la aplicación ToDo a directorio de Tomcat
       copy:
-        src: /home/sysadmin/Downloads/todo.war
+        src: ./files/todo.war
         dest: /var/lib/tomcat/webapps/todo.war
 
     - name: Configurar la base de datos en la aplicación ToDo

@@ -4,19 +4,60 @@
   become: true
   user: sysadmin
 
+  vars:
+    db_user: "sysadmin"
+    db_password: "tlxadmin"
+    db_host: "localhost"
+    db_name: "DatabaseTSL"
+
   tasks:
 
     ## Primero instalo JAVA
     - name: Instalo el JAVA SDK
+      yum:
+        name: java-1.8.0-openjdk
+        state: present
 
-      ## Primero bajo y extraigo el Tomcat
+      ## Segundo bajo y extraigo el Tomcat
     - name: Bajo el Tomcat y extrae en el directorio /opt/.
+      yum:
+        name: tomcat
+        state: present
 
-      ## abro puertos necesarios
-    - name: abrir los puertos 8080 y 8443 en el firewall.
+    - name: Iniciar y habilitar Tomcat service
+      systemd:
+        name: tomcat
+        state: started
+        enabled: yes
+
+      ## Tercero abro puertos necesarios
+    - name: Habilitar puerto 8080 en el firewall para Tomcat
+      ansible.posix.firewalld:
+        port: 8080/tcp
+        state: enabled
+        immediate: yes
+        permanent: yes
+
+    - name: Habilitar puerto 8443 en el firewall para Tomcat
+      ansible.posix.firewalld:
+        port: 8443/tcp
+        state: enabled
+        immediate: yes
+        permanent: yes   
 
       ## Despliego app todo.war
-    - name: Despliegue de la aplicación ToDo.war en Tomcat.
+    - name: Copiar la aplicación ToDo a directorio de Tomcat
+      ansible.builtin.copy:
+        src: ./files/todo.war
+        dest: /var/lib/tomcat/webapps/todo.war
 
       ## cargo la configuración de todo.war
-    - name: Se configura la aplicación ToDo.war mediante un archivo de configuración.
+    - name: Configurar la base de datos en la aplicación ToDo
+      ansible.builtin.template:
+        src: ./files/todo_db_config.xml.j2
+        dest: /var/lib/tomcat/conf/Catalina/localhost/todo.xml
+
+    - name: Reiniciar Tomcat para desplegar todo
+      ansible.builtin.systemd_service:
+        name: tomcat
+        state: restarted
