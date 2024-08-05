@@ -36,9 +36,17 @@
         src: /home/sysadmin/Downloads/todo.war
         dest: /var/lib/tomcat/webapps/todo.war
 
+    - name: Verifico que exista un directorio donde cargar la configuracion de todo.war
+      ansible.builtin.file:
+        path: /var/lib/tomcat/conf/Catalina/localhost
+        state: directory
+        owner: tomcat
+        group: tomcat
+        mode: '0755'
+
     - name: Configurar la base de datos en la aplicación ToDo
       template:
-        src: /home/sysadmin/Downloads/todo_db_config.xml.j2
+        src: ./Template/todo_db_config.xml.j2
         dest: /var/lib/tomcat/conf/Catalina/localhost/todo.xml
 
     - name: Reiniciar Tomcat para desplegar todo
