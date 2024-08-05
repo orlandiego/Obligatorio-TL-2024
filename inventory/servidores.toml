@@ -10,9 +10,6 @@ dbserver    ansible_host=192.168.56.104
 [webserver]
 webserver01   ansible_host=192.168.56.103
 
-[webservers:vars]
-sysadmin=tLxadmin
-
 [linux:children]
 centos
 ubuntu
