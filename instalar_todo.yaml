@@ -5,7 +5,7 @@
   vars:
     db_user: "sysadmin"
     db_password: "tlxadmin"
-    db_host: "localhost"
+    db_host: "192.168.56.103"
     db_name: "DatabaseTSL"
   tasks:
     - name: Instalar Java JDK

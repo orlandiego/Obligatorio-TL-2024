@@ -3,9 +3,9 @@
   hosts: server02
   become: yes
   vars:
-    db_root_password: "segura_contraseña_root"
-    db_user: "todo_user"
-    db_user_password: "segura_contraseña_user"
+    db_root_password: "tlxadmin"
+    db_user: "sysadmin"
+    db_user_password: "tlxadmin"
     db_name: "DatabaseTSL"
   tasks:
     - name: Instalar MariaDB
