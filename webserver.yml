@@ -48,13 +48,13 @@
       ## Despliego app todo.war
     - name: Copiar la aplicación ToDo a directorio de Tomcat
       ansible.builtin.copy:
-        src: ./files/todo.war
+        src: ./Files/todo.war
         dest: /var/lib/tomcat/webapps/todo.war
 
       ## cargo la configuración de todo.war
     - name: Configurar la base de datos en la aplicación ToDo
       ansible.builtin.template:
-        src: ./template/todo_db_config.xml.j2
+        src: ./Template/todo_db_config.xml.j2
         dest: /var/lib/tomcat/conf/Catalina/localhost/todo.xml
 
     - name: Reiniciar Tomcat para desplegar todo

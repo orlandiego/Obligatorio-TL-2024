@@ -1,6 +1,6 @@
 ---
 - name: Instalar todo en server01
-  hosts: server01
+  hosts: webserver
   become: yes
   vars:
     db_user: "sysadmin"
@@ -33,7 +33,7 @@
 
     - name: Copiar la aplicación ToDo a directorio de Tomcat
       copy:
-        src: ./files/todo.war
+        src: /home/sysadmin/Downloads/todo.war
         dest: /var/lib/tomcat/webapps/todo.war
 
     - name: Configurar la base de datos en la aplicación ToDo
