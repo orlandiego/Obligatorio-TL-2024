@@ -2,7 +2,12 @@
 - name: Configuro servidor base de datos en ubuntu
   hosts: database
   become: true
-  user: sadmin
+  user: sysadmin
+  vars:
+    db_root_password: "dbadmin"
+    db_user: "sysadmin"
+    db_user_password: "prueba.2024"
+    db_name: "DatabaseTSL"
 
   tasks:
 
@@ -48,11 +53,26 @@
       line: 'bind-address         = 0.0.0.0'
     notify: Restart mariadb
 
+# Iniciar y habilitar el servicio de MariaDB
   - name: Servidor Mariadb levantado
     ansible.builtin.systemd_service: 
       name: mariadb
       state: started
       enabled: true
+
+# Me aseguro que exista un usuario root
+  - name: Asegurar MariaDB con mysql_secure_installation
+    expect:
+      command: mysql_secure_installation
+      responses:
+        'Enter current password for root (enter for none):': ''
+        'Set root password? \[Y/n\]': 'Y'
+        'New password:': "{{ db_root_password }}"
+        'Re-enter new password:': "{{ db_root_password }}"
+        'Remove anonymous users? \[Y/n\]': 'Y'
+        'Disallow root login remotely? \[Y/n\]': 'Y'
+        'Remove test database and access to it? \[Y/n\]': 'Y'
+        'Reload privilege tables now? \[Y/n\]': 'Y'
 
   - name: Habilitamos en ufw la conexión a mariadb
     community.general.ufw:
@@ -61,72 +81,20 @@
       protocol: tcp
       direction: in
 
-  - name: Configurar base de datos MySQL
-    hosts: database
-    become: true
-    tasks:
-      - name: Crear el usuario root y otorgar permisos
-        ansible.builtin.shell: |
-          mysql -u root -p'root_password' -e "CREATE USER 'root'@'%' IDENTIFIED BY 'new_password';"
-          mysql -u root -p'root_password' -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION;"
-          mysql -u root -p'root_password' -e "FLUSH PRIVILEGES;"
-        args:
-          executable: /bin/bash
-        environment:
-          MYSQL_PWD: dbadmin
+  - name: Crear base de datos
+    community.mysql.mysql_db:
+      name: "{{ db_name }}"
+      state: present
 
-  - name: Crear base de datos todo
-    ansible.builtin.shell: |
-      mysql -u root -p'new_password' -e "CREATE DATABASE IF NOT EXISTS todo;"
-    args:
-      executable: /bin/bash
-    environment:
-      MYSQL_PWD: dbadmin
+  - name: Crear usuario de base de datos
+    community.mysql.mysql_user:
+      name: "{{ db_user }}"
+      password: "{{ db_user_password }}"
+      priv: "{{ db_name }}.*:ALL"
+      host: "%"
+      state: present
 
-  - name: Copiar archivo SQL al servidor
-    ansible.builtin.copy:
-      src: ./files/todo.sql
-      dest: /tmp/todo.sql
-
-  - name: Importar archivo SQL
-    ansible.builtin.shell: |
-      mysql -u root -p'new_password' todo < /tmp/todo.sql
-    args:
-      executable: /bin/bash
-    environment:
-      MYSQL_PWD: dbadmin
-
-## Creo usuarios y los muestro al final para verificar:
-
-  - name: Agregar usuarios de prueba a la base de datos
-    ansible.builtin.shell: |
-      mysql -u root -p'new_password' -e "
-      USE todo;
-      INSERT INTO users (first_name, last_name, username, password) VALUES ('John', 'Doe', 'jdoe', 'password123');
-      INSERT INTO users (first_name, last_name, username, password) VALUES ('Jane', 'Smith', 'jsmith', 'password456');
-      INSERT INTO users (first_name, last_name, username, password) VALUES ('Alice', 'Johnson', 'ajohnson', 'password789');
-      "
-    args:
-      executable: /bin/bash
-    environment:
-      MYSQL_PWD: new_password
-
-  - name: Consultar y mostrar los usuarios creados
-    ansible.builtin.shell: |
-      mysql -u root -p'new_password' -e "
-      USE todo;
-      SELECT * FROM users;
-      "
-    args:
-      executable: /bin/bash
-    environment:
-      MYSQL_PWD: new_password
-    register: query_result
-
-  - name: Mostrar resultado de la consulta
-    ansible.builtin.debug:
-      var: query_result.stdout
-
+  
 
   handlers:
 
