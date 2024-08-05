@@ -1,6 +1,6 @@
 ---
 - name: Instalar todo en server01
-  hosts: webserver
+  hosts: webserver01
   become: yes
   vars:
     db_user: "sysadmin"
