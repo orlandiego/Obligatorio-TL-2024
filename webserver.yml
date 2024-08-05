@@ -6,7 +6,7 @@
 
   vars:
     db_user: "sysadmin"
-    db_password: "tlxadmin"
+    db_password: "dbadmin"
     db_host: "localhost"
     db_name: "DatabaseTSL"
 
