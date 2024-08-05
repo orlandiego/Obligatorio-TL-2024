@@ -1,7 +1,7 @@
 ---
 - name: Instalar MariaDB en server02
-  hosts: server02
-  become: yes
+  hosts: dbserver
+  become: true
   vars:
     db_root_password: "tlxadmin"
     db_user: "sysadmin"
@@ -9,16 +9,16 @@
     db_name: "DatabaseTSL"
   tasks:
     - name: Instalar MariaDB
-      apt:
+      ansible.builtin.apt:
         name: mariadb-server
         state: present
-        update_cache: yes
+        update_cache: true
 
     - name: Iniciar y habilitar el servicio de MariaDB
-      systemd:
+      ansible.builtin.systemd_service:
         name: mariadb
         state: started
-        enabled: yes
+        enabled: true
 
     - name: Asegurar MariaDB con mysql_secure_installation
       expect:
@@ -34,20 +34,20 @@
           'Reload privilege tables now? \[Y/n\]': 'Y'
 
     - name: Crear base de datos
-      mysql_db:
-        name: "{{ DatabaseTSL }}"
+      community.mysql.mysql_db:
+        name: "{{ db_name }}"
         state: present
 
     - name: Crear usuario de base de datos
-      mysql_user:
-        name: "{{ sysadmin }}"
-        password: "{{ tlxadmin }}"
+      community.mysql.mysql_user:
+        name: "{{ db_user }}"
+        password: "{{ db_user_password }}"
         priv: "{{ DatabaseTSL }}.*:ALL"
         host: "%"
         state: present
 
     - name: Configurar el firewall para MariaDB
-      ufw:
+      community.general.ufw:
         rule: allow
         name: 'MySQL'
         port: '3306'
