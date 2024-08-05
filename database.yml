@@ -73,6 +73,11 @@
         'Disallow root login remotely? \[Y/n\]': 'Y'
         'Remove test database and access to it? \[Y/n\]': 'Y'
         'Reload privilege tables now? \[Y/n\]': 'Y'
+    no_log: true
+
+  - name: Pausa para asegurar que los cambios tomen efecto
+    pause:
+      seconds: 5
 
   - name: Habilitamos en ufw la conexión a mariadb
     community.general.ufw:
@@ -93,8 +98,6 @@
       priv: "{{ db_name }}.*:ALL"
       host: "%"
       state: present
-
-  
 
   handlers:
 
