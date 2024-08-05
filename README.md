@@ -96,19 +96,33 @@ $ ansible-playbook -i inventario/servidores.toml database.yml
 ### Referencias utilizadas para el despliegue del webserver
 ---
 #### Primero instalo JAVA
+
     - name: Instalo el JAVA SDK
+
+[INSTALO-JAVA](https://www.geeksforgeeks.org/how-to-install-java-using-ansible-playbook/)
 
 #### Primero bajo y extraigo el Tomcat
     - name: Bajo el Tomcat y extrae en el directorio /opt/.
 
+ [INSTALO-TOMCAT](https://github.com/jmutai/tomcat-ansible/blob/master/tomcat-setup.yml)   
+
 #### abro puertos necesarios
+
     - name: abrir los puertos 8080 y 8443 en el firewall.
 
+[ABRO puertos](https://docs.ansible.com/ansible/latest/collections/ansible/posix/firewalld_module.html)
+
 #### Despliego app todo.war
+
     - name: Despliegue de la aplicación ToDo.war en Tomcat.
 
+[COPIO APP](https://docs.ansible.com/ansible/latest/collections/ansible/builtin/copy_module.html#ansible-collections-ansible-builtin-copy-module)
+
 #### cargo la configuración de todo.war
+
     - name: Se configura la aplicación ToDo.war mediante un archivo de configuración.
+
+[Copio configuracion](https://docs.ansible.com/ansible/latest/collections/ansible/builtin/template_module.html#ansible-collections-ansible-builtin-template-module)
 ---
 ### Referencias utilizadas para el despliegue de la base de datos
 ---

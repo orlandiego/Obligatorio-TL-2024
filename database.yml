@@ -6,7 +6,7 @@
   vars:
     db_root_password: "dbadmin"
     db_user: "sysadmin"
-    db_user_password: "prueba.2024"
+    db_user_password: "dbadmin"
     db_name: "DatabaseTSL"
 
   tasks:

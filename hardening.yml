@@ -1,5 +1,5 @@
 ---
-- name: Hardening de servidores centos
+- name: Hardening de servidores linux
   hosts: linux
   become: true
   user: sysadmin
