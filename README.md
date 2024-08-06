@@ -121,7 +121,7 @@ jdbcPassword=tlxadmin
 ```
 
 ```
-$ ansible-playbook -i inventario/servidores.toml instalar.todo.yml --ask-become-pass
+$ ansible-playbook -i inventory/servidores.toml instalar.todo.yml --ask-become-pass
 ```
 
 
@@ -137,13 +137,13 @@ pipx inject ansible-core pymysql
 Para deplegar el playbook dy montar el `dbserver` tengo que ejecutar lo siguiente en mi controller
 
 ```
-$ ansible-playbook -i inventario/servidores.toml install.mariadb.yml --ask-become-pass
+$ ansible-playbook -i inventory/servidores.toml install.mariadb.yml --ask-become-pass
 ```
 
 ## CREACION de la base de datos todo dbserver
 
 ```
-$ ansible-playbook -i inventario/servidores.toml mysql.yml --ask-become-pass
+$ ansible-playbook -i inventory/servidores.toml mysql.yml --ask-become-pass
 ```
 ## CONCLUSIONES
 
