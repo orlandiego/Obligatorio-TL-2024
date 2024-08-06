@@ -143,13 +143,20 @@ En este playbook se realizan las siguientes tareas:
 2. - name: Bajo e inicio Tomcat
 3. - name: abrir los puertos 8080 y 8443 en el firewall.
 4. - name: Despliegue de la aplicación ToDo.war en Tomcat.
-5. - name: Se configura la aplicación ToDo.war mediante un archivo de configuración Files/app.properties para que apunte a la base de datos
+5. - name: Se configura la aplicación ToDo.war mediante un archivo de configuración Files/app.properties para que apunte a la base de datos:
+
+```
+tipoDB=mysql
+jdbcURL=jdbc:mysql://192.168.56.104:3306/todo
+jdbcUsername=sysadmin
+jdbcPassword=tlxadmin
+```
 
 #### Bloque de configuración (webserver):
 
 **Comando utilizado para ejecutar**
 ```
-ansible-playbook -i inventario/servidores.toml instalar.todo.yml --ask-become-pass
+ansible-playbook -i inventory/servidores.toml instalar.todo.yml --ask-become-pass
 ```
 
 ```
@@ -237,7 +244,7 @@ En este playbook se realizan las siguientes tareas:
 
 - **Comando utilizado para ejecutar**
 ```
-ansible-playbook -i inventario/servidores.toml install.mariadb.yml --ask-become-pass
+ansible-playbook -i inventory/servidores.toml install.mariadb.yml --ask-become-pass
 ```
 
 ```
@@ -348,7 +355,7 @@ Aqui configuramos la base de datos y hacemos pruebas para verificar que la misma
 
 **Comando utilizado para ejecutar**
 ```
-ansible-playbook -i inventario/servidores.toml mysql.yml --ask-become-pass
+ansible-playbook -i inventory/servidores.toml mysql.yml --ask-become-pass
 ```
 
 ```
