@@ -8,6 +8,12 @@
     db_user_password: "tlxadmin"
     db_name: "DatabaseTSL"
   tasks:
+    - name: Instalar PyMySQL
+      ansible.builtin.apt:
+        name: python3-pymysql
+        state: present
+        update_cache: true
+
     - name: Instalar MariaDB
       ansible.builtin.apt:
         name: mariadb-server
@@ -15,23 +21,29 @@
         update_cache: true
 
     - name: Iniciar y habilitar el servicio de MariaDB
-      ansible.builtin.systemd_service:
+      ansible.builtin.systemd:
         name: mariadb
         state: started
         enabled: true
 
-    - name: Asegurar MariaDB con mysql_secure_installation
-      expect:
-        command: mysql_secure_installation
-        responses:
-          'Enter current password for root (enter for none):': ''
-          'Set root password? \[Y/n\]': 'Y'
-          'New password:': "{{ db_root_password }}"
-          'Re-enter new password:': "{{ db_root_password }}"
-          'Remove anonymous users? \[Y/n\]': 'Y'
-          'Disallow root login remotely? \[Y/n\]': 'Y'
-          'Remove test database and access to it? \[Y/n\]': 'Y'
-          'Reload privilege tables now? \[Y/n\]': 'Y'
+    - name: Crear archivo de configuración temporal para MySQL
+      ansible.builtin.copy:
+        dest: /root/.my.cnf
+        content: |
+          [client]
+          user=root
+          password={{ db_root_password }}
+      no_log: true
+
+    - name: Configurar contraseña de root y asegurar MariaDB
+      ansible.builtin.shell: |
+        mysql -e "SET PASSWORD FOR 'root'@'localhost' = PASSWORD('{{ db_root_password }}');"
+        mysql -e "DELETE FROM mysql.user WHERE User='';"
+        mysql -e "DROP DATABASE IF EXISTS test;"
+        mysql -e "DELETE FROM mysql.db WHERE Db='test' OR Db='test\\_%';"
+        mysql -e "FLUSH PRIVILEGES;"
+      args:
+        executable: /bin/bash
 
     - name: Crear base de datos
       community.mysql.mysql_db:
@@ -42,13 +54,17 @@
       community.mysql.mysql_user:
         name: "{{ db_user }}"
         password: "{{ db_user_password }}"
-        priv: "{{ DatabaseTSL }}.*:ALL"
+        priv: "{{ db_name }}.*:ALL"
         host: "%"
         state: present
 
-    - name: Configurar el firewall para MariaDB
+    - name: Configurar el firewall para permitir acceso a MariaDB
       community.general.ufw:
         rule: allow
-        name: 'MySQL'
         port: '3306'
         proto: tcp
+
+    - name: Eliminar archivo de configuración temporal para MySQL
+      ansible.builtin.file:
+        path: /root/.my.cnf
+        state: absent
