@@ -137,7 +137,7 @@ pipx inject ansible-core pymysql
 Para deplegar el playbook dy montar el `dbserver` tengo que ejecutar lo siguiente en mi controller
 
 ```
-$ ansible-playbook -i inventario/servidores.toml database.yml --ask-become-pass
+$ ansible-playbook -i inventario/servidores.toml install.mariadb.yml --ask-become-pass
 ```
 
 ## CREACION de la base de datos todo dbserver
@@ -147,6 +147,7 @@ $ ansible-playbook -i inventario/servidores.toml mysql.yml --ask-become-pass
 ```
 ## CONCLUSIONES
 
+- Como posibilidad de mejora, podriamos utilizar variables para no tener que modificar en todos lados las direcciones de los servidores al desplegar.
 - Modificamos el archivo de creación de base de datos para que cuando ejecutamos elimine la misma si es que hay una ya creada:
 
 `DROP DATABASE IF EXISTS todo;`
