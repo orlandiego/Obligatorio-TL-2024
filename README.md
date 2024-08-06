@@ -2,13 +2,23 @@
 Estos son playbooks de ansible que hacemos para el taller de Servidores Linux
 
 ## Instalacion
-Instalamos Ansible usando pipx
+Comentamos como armamos nuestro controller para el depliegue de ansible en los otros equipos y las herramientas utilizadas en el mismo.
+
+---
+
+Ejecutamos con sudo lo siguiente
+
 ```
-# dnf install python3-pip
-$ pip install pipx
-$ pipx ensurepath
-$ pipx install ansible-lint
+dnf install python3-pip
+pip install pipx
+pipx ensurepath
+pipx install ansible-core
+pipx inject ansible-core argcomplete
+pipx inject ansible-core ansible-lint   
+pipx install ansible-lint               // no quedo instalado antes
+activate-global-python-argcomplete --user
 ```
+
 ## Modulos para poder ejecutar ansible
 
 - Estos modulos debemos instalar para poder ejecutar ansible, los mismos los cargamos en la carpeta Collections con el nombre de `requirements.yml`
@@ -23,17 +33,37 @@ collections:
 ```
  ansible-galaxy collection install -r collections/requirements.yml 
 ```
+### Con esto instalo ansible en Cent0s 9
+
+Para poder hacer el despliegue en los 2 servidores Centos para webserver y Ubuntu para dbserver debo saber las IP de los mismos para configurar correcamente mi archivo `servidores-toml` 
 
 
-## 
 
 
-## Ejecución
+
+---
+## Ejecución o despliegue de ansible:
+
+- Con esto resuelto verifico que puedo acceder a los mismos, antes tengo que tener generada mi ssh-keygen y correctamente configurada la carpeta donde lo obtengo
+`/home/sadmin/.ssh/id_rsa.pub`
+
 ```
-$ ansible-playbook -i inventario/servidores.toml hardening.yml
+$ ansible-playbook -i inventario/servidores.toml hardening.yml --ask-become-pass
 ```
-En este primer despliegue preparo los servidores para recibir conexiones ssh y establecer su IP como fija.
+- Copio la clave pública a los servidores remotos para poder ingresar
+- Tambien podemos copiarla ejecutando el siguiente comando ssh hacia cada servidor, indico el usuario donde copiarla `sysadmin`
 
+```ssh
+ssh-copy-id sysadmin@192.168.56.XXX    me pide la contraseña de sysadmin 
+```
+
+- Verifico que puedo acceder y ejecutar un modulo en el servidor remoto
+
+```
+`ansible -i 192.168.56.20, all -m ping`   `--ask-pass`
+```
+
+  `--ask-pass` es para que me pida la contraseña de ssh en caso de tener una establecida **"PASSWORD"**
 
 ## Organización de las carpetas de trabajo
 
@@ -43,22 +73,20 @@ Obligatorio-TL-2024
 │   └── requiremets.yml
 ├── Documentos/
 ├── Files/
-│   ├── todo.dql
-│   ├── tomcat.conf
-│   └── virtualhost.conf
+│   ├── app.properties
+│   ├── todo.sql
+│   └── todo.war
 ├── inventory/
 │   ├── group_vars/
 │   │   ├── centos.yml
 │   │   └── ubuntu.yml
 │   ├── host_vars/
-│   │   ├── Webserver.yml
-│   │   └── DBServer.yml
+│   │   ├── database.yml
+│   │   └── webserver.yml
 │   └── servidores.toml
-├── Template/
-│   └── todo.war
-├── webserver.yml
-├── database.yml
-|   hardening.yml
+├── instalar_todo.yml
+├── install_mariaDB.yml
+|   mysql.yml
 └── README.md
 
 ```

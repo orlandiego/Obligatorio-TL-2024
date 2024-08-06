@@ -16,7 +16,7 @@
     
   - name: Inyecto la clave publica SSH en los servidores
     ansible.posix.authorized_key:
-      user: sadmin
+      user: sysadmin
       state: present
       key: "{{ lookup('file', '/home/sadmin/.ssh/id_rsa.pub') }}"
 

@@ -2,15 +2,19 @@
 webserver01   ansible_host=192.168.56.102
 
 [ubuntu]
-dbserver    ansible_host=192.168.56.104
+dbserver    ansible_host=192.168.56.103
 
 [database]
-dbserver    ansible_host=192.168.56.104
+dbserver    ansible_host=192.168.56.103
+
+[databse:vars]
+admin_user=sysadmin
+admin_pass=tlxadmin
 
 [webserver]
 webserver01   ansible_host=192.168.56.102
 
-[webservers:vars]
+[webserver:vars]
 admin_user=sysadmin
 admin_pass=tlxadmin
 
