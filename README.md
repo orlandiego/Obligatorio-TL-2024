@@ -29,16 +29,22 @@ collections:
   - name: community.general
   - name: community.mysql
 ```
-### Instalamos estas dependencias ejecutando:
+ - Instalamos estas dependencias ejecutando:
+
 ```
  ansible-galaxy collection install -r collections/requirements.yml 
 ```
 ### Con esto instalo ansible en Cent0s 9
 
-Para poder hacer el despliegue en los 2 servidores Centos para webserver y Ubuntu para dbserver debo saber las IP de los mismos para configurar correcamente mi archivo `servidores-toml` 
+Para poder hacer el despliegue en los 2 servidores, (Centos para webserver y Ubuntu para database), debo saber las IP de los mismos para configurar correcamente mi archivo `servidores-toml` 
 
+```
+[centos]
+webserver01   ansible_host=192.168.56.102
 
-
+[ubuntu]
+dbserver    ansible_host=192.168.56.103
+```
 
 
 ---

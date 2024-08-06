@@ -1,5 +1,5 @@
 ---
-- name: Instalar todo en server01
+- name: Instalar todo en el webserver
   hosts: webserver01
   become: yes
   vars:

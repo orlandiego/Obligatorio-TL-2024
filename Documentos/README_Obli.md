@@ -105,9 +105,9 @@ El repositorio se puede descargar como Zip, y usarse como entrega.
 
 | Servidor                  | Linux              | Descripción                                    | Subred          |                   |
 |--------------------------------|-------------------|------------------------------------------------|-----------------|--------------------|
-| Controller                     | Centos 9 Stream          | Despliega Ansible                              | 192.168.56.*  (DHCP en el rango)       | -                  |
-| WebServer           | Centos 9 Stream              |  Aplicación ToDo                           | 192.168.56.40        | -                  |
-| DBServer                | Ubuntu      | Base de datos                              | 192.168.56.50        | -                  |
+| Controller                     | Centos 9 Stream          | Despliega Ansible                              | 192.168.56.101       | -                  |
+| WebServer           | Centos 9 Stream              |  Aplicación ToDo                           | 192.168.56.103        | -                  |
+| DBServer                | Ubuntu      | Base de datos                              | 192.168.56.104        | -                  |
 
 
 
@@ -118,11 +118,11 @@ El repositorio se puede descargar como Zip, y usarse como entrega.
 - Copio la clave publica a los servidores Web y DB
 
  ```markdown
-ssh-copy-id 192.168.56.40
-ssh-copy-id 192.168.56.50
+ssh-copy-id sysadmin@192.168.56.40
+ssh-copy-id sysadmin@192.168.56.50
  ```
 
-## Playbook en el servidor Cent0s9
+## Playbook en el servidor Cent0s.9
 Al ....
 
 ### Tareas a realizar
@@ -130,12 +130,12 @@ Al ....
 En este playbook se realizan las siguientes tareas:
 
 1. - name: Instalo el JAVA SDK
-2. - name: Bajo el Tomcat y extrae en el directorio /opt/.
+2. - name: Bajo e instalo Tomcat
 3. - name: abrir los puertos 8080 y 8443 en el firewall.
 4. - name: Despliegue de la aplicación ToDo.war en Tomcat.
-5. - name: Se configura la aplicación ToDo.war mediante un archivo de configuración.
+5. - name: Se configura la aplicación ToDo.war mediante un archivo de configuración app.properties para que apunte a la base de datos
 
-#### Bloque de configuración (Centos):
+#### Bloque de configuración (webserver):
 
 ```
 ---
@@ -147,8 +147,16 @@ En este playbook se realizan las siguientes tareas:
 
 ## Playbook en el servidor Ubuntu 🚀
 
-Para el lanzamiento de
-**ansible** 
+
+### Tareas a realizar en el dbserver
+
+En este playbook se realizan las siguientes tareas:
+
+1. - name: Instalo el JAVA SDK
+2. - name: Bajo e instalo Tomcat
+3. - name: abrir los puertos 8080 y 8443 en el firewall.
+4. - name: Despliegue de la aplicación ToDo.war en Tomcat.
+5. - name: Se configura la aplicación ToDo.war mediante un archivo de configuración app.properties para que apunte a la base de datos
 
 #### Bloque de configuración (Ubuntu):
 
