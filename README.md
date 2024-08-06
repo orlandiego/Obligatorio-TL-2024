@@ -61,18 +61,12 @@ dbserver    ansible_host=192.168.56.103
 
 - Con esto resuelto, verifico que puedo acceder a los mismos, antes tengo que tener generada mi ssh-keygen y correctamente configurada la carpeta donde lo obtengo en hardening.yml
 `/home/sadmin/.ssh/id_rsa.pub`
- - Ejecuto:
 
-```
-$ ansible-playbook -i inventario/servidores.toml hardening.yml --ask-become-pass
-```
-- Copio la clave pública a los servidores remotos para poder ingresar
-- Tambien podemos copiarla ejecutando el siguiente comando ssh hacia cada servidor, indico el usuario donde copiarla `sysadmin`
-
+ - Ejecuto el siguiente comando hacia las direcciones de los servidores:
+ 
 ```ssh
 ssh-copy-id -f sysadmin@192.168.56.XXX    me pide la contraseña de sysadmin 
 ```
-
 - Verifico que puedo acceder y ejecutar un modulo en el servidor remoto
 
 ```
@@ -80,6 +74,11 @@ ssh-copy-id -f sysadmin@192.168.56.XXX    me pide la contraseña de sysadmin
 ```
 
   `--ask-pass` es para que me pida la contraseña de ssh en caso de tener una establecida **"PASSWORD"**
+
+ - Luego despliego el hardenig.yml
+```
+$ ansible-playbook -i inventario/servidores.toml hardening.yml --ask-become-pass
+```
 
 ## Organización de las carpetas de trabajo
 
