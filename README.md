@@ -166,36 +166,28 @@ $ ansible-playbook -i inventario/servidores.toml mysql.yml --ask-become-pass
 ---
 #### Primero instalo JAVA
 
-1. Instalo el JAVA SDK
-
 [INSTALO-JAVA](https://www.geeksforgeeks.org/how-to-install-java-using-ansible-playbook/)
 
 #### Instalo Tomcat
-
-2. Instalo Tomcat
 
  [INSTALO-TOMCAT](https://github.com/jmutai/tomcat-ansible/blob/master/tomcat-setup.yml)   
 
 #### abro puertos necesarios
 
-3. Abro los puertos 8080 y 8443 en el firewall.
-
 [ABRO PUERTOS](https://docs.ansible.com/ansible/latest/collections/ansible/posix/firewalld_module.html)
 
 #### Despliego app todo.war
-
-4. Despliegue de la aplicación ToDo.war en Tomcat.
 
 [COPIO APP](https://docs.ansible.com/ansible/latest/collections/ansible/builtin/copy_module.html#ansible-collections-ansible-builtin-copy-module)
 
 #### cargo la configuración de todo.war
 
-5. Se configura la aplicación ToDo.war mediante un archivo de configuración.
-
-[CCOPIO CONFIG](https://docs.ansible.com/ansible/latest/collections/ansible/builtin/template_module.html#ansible-collections-ansible-builtin-template-module)
+[COPIO CONFIG](https://docs.ansible.com/ansible/latest/collections/ansible/builtin/template_module.html#ansible-collections-ansible-builtin-template-module)
 
 ---
 ### Referencias utilizadas para el despliegue de la base de datos
 ---
 
-[GITHUB-EMVERDES](https://github.com/emverdes/TallerJulio2024.git)
+- [GITHUB-EMVERDES](https://github.com/emverdes/TallerJulio2024.git)
+
+- [REPO DEL OBLIGATORIO EN GIT](<https://github.com/orlandiego/Obligatorio-TL-2024>)
