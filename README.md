@@ -75,7 +75,7 @@ ssh-copy-id -f sysadmin@192.168.56.XXX    me pide la contraseña de sysadmin
 
   `--ask-pass` es para que me pida la contraseña de ssh en caso de tener una establecida **"PASSWORD"**
 
- - Luego despliego el hardenig.yml
+ - Luego despliego el hardenig.yml. Con esto configuro opciones de seguridad de ssh 
 ```
 $ ansible-playbook -i inventario/servidores.toml hardening.yml --ask-become-pass
 ```
