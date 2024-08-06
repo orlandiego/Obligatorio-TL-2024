@@ -47,9 +47,9 @@
       ansible.builtin.shell: |
         mysql -u root -p'{{ db_root_password }}' -e "
         USE todo;
-        INSERT INTO users (first_name, last_name, username, password) VALUES ('John', 'Doe', 'johndoe', 'password1');
-        INSERT INTO users (first_name, last_name, username, password) VALUES ('Jane', 'Doe', 'janedoe', 'password2');
-        INSERT INTO users (first_name, last_name, username, password) VALUES ('Jim', 'Beam', 'jimbeam', 'password3');
+        INSERT INTO users (first_name, last_name, username, password) VALUES ('Pepe', 'Momo', 'pmomo', 'password1');
+        INSERT INTO users (first_name, last_name, username, password) VALUES ('Tita', 'Merelo', 'tmerelo', 'password2');
+        INSERT INTO users (first_name, last_name, username, password) VALUES ('Tito', 'Perez', 'tperez', 'password3');
         "
       args:
         executable: /bin/bash
