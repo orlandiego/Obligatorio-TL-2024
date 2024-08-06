@@ -2,6 +2,7 @@
 - name: Configurar base de datos MySQL
   hosts: database
   become: true
+  user: sysadmin
   tasks:
     - name: Crear el usuario root y otorgar permisos
       ansible.builtin.shell: |

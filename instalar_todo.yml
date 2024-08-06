@@ -1,12 +1,13 @@
 ---
 - name: Instalar todo en el webserver
   hosts: webserver01
-  become: yes
+  become: true
+  user: sysadmin
   vars:
     db_user: "sysadmin"
     db_password: "tlxadmin"
-    db_host: "192.168.56.103"
-    db_name: "DatabaseTSL"
+    db_host: "192.168.56.104"
+    db_name: "todo"
   tasks:
     - name: Instalar Java JDK
       yum:
@@ -48,11 +49,6 @@
       ansible.builtin.copy:
         src: ./Files/app.properties
         dest: /opt/config/app.properties
-
-    - name: Configurar la base de datos en la aplicación ToDo
-      ansible.builtin.template:
-        src: ./Template/todo_db_config.xml.j2
-        dest: /var/lib/tomcat/conf/Catalina/localhost/todo.xml
 
     - name: Reiniciar Tomcat para desplegar todo
       ansible.builtin.systemd_service:

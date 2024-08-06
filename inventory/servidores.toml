@@ -1,22 +1,14 @@
 [centos]
-webserver01   ansible_host=192.168.56.102
+webserver01    ansible_host=192.168.56.103
 
 [ubuntu]
-dbserver    ansible_host=192.168.56.103
+dbserver    ansible_host=192.168.56.104
 
 [database]
-dbserver    ansible_host=192.168.56.103
-
-[databse:vars]
-admin_user=sysadmin
-admin_pass=tlxadmin
+dbserver    ansible_host=192.168.56.104
 
 [webserver]
-webserver01   ansible_host=192.168.56.102
-
-[webserver:vars]
-admin_user=sysadmin
-admin_pass=tlxadmin
+webserver01   ansible_host=192.168.56.103
 
 [linux:children]
 centos

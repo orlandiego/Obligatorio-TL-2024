@@ -2,6 +2,7 @@
 - name: Instalar MariaDB en server02
   hosts: dbserver
   become: true
+  user: sysadmin
   vars:
     db_root_password: "tlxadmin"
     db_user: "sysadmin"
