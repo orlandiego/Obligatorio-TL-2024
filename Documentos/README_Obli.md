@@ -106,21 +106,30 @@ El repositorio se puede descargar como Zip, y usarse como entrega.
 | Servidor                  | Linux              | Descripción                                    | Subred          |                   |
 |--------------------------------|-------------------|------------------------------------------------|-----------------|--------------------|
 | Controller                     | Centos 9 Stream          | Despliega Ansible                              | 192.168.56.101       | -                  |
-| WebServer           | Centos 9 Stream              |  Aplicación ToDo                           | 192.168.56.103        | -                  |
-| DBServer                | Ubuntu      | Base de datos                              | 192.168.56.104        | -                  |
+| webServer01           | Centos 9 Stream              |  Aplicación ToDo                           | 192.168.56.103        | -                  |
+| dbserver                | Ubuntu      | Base de datos                              | 192.168.56.104        | -                  |
 
-
+### 
 
 #### Usuario Admin
 
-- Generamos el usuario **sadmin** para gestionar todos los servidores con permiso de administrador.
-- Generamos la clave publica y privada
+- Generamos el usuario **sysadmin** para gestionar todos los servidores con permiso de administrador.
+- Generamos la clave publica y privada en nuestro controller
 - Copio la clave publica a los servidores Web y DB
 
  ```markdown
-ssh-copy-id sysadmin@192.168.56.40
-ssh-copy-id sysadmin@192.168.56.50
+ssh-copy-id -f sysadmin@192.168.56.103
+ssh-copy-id -f sysadmin@192.168.56.104
  ```
+
+## Verificamos con ansible la estructura solicitada de nuestros  servidores:
+
+```
+ansible all -i inventory/servidores.toml -u sysadmin -m shell -a "lsblk -o NAME,SIZE,FSTYPE,TYPE,MOUNTPOINT" --become --ask-become-pass
+```
+
+![DISCOS](./Imagenes/)
+
 
 ## Playbook en el servidor Cent0s.9
 Al ....
@@ -194,6 +203,7 @@ hiiugiuh
 
 ## Referencias externas
 
+- Consulta en ChatGPT: "Como puedo hacer para consultar con ansible el tamaño y las particiones de los discos de otro equipo, enviando el el usuario sysadmin para que ejecute con el mismo"
 - [Repo en GIT](<https://github.com/orlandiego/Obligatorio-TL-2024>)
 - [Git emverdes](https://github.com/emverdes/docker-tomcat-tutorial)
 - [Ansible Docs](https://docs.ansible.com/ansible/latest/collections/ansible/builtin/lineinfile_module.html)

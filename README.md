@@ -35,6 +35,18 @@ collections:
  ansible-galaxy collection install -r collections/requirements.yml 
 ```
 ### Con esto instalo ansible en Cent0s 9
+---
+## Instalo Git y bajo mi repositorio para desplegar mis playbooks
+
+Subimos nuestros repositorio a Github para poder desplegarlos
+- Debemos instalar git en nuestro controller para hacerlo:
+`sudo dnf install git`
+- Luego bajamos el repo:
+```
+git clone https://github.com/orlandiego/Obligatorio-TL-2024.git
+```
+---
+## Averigu las Ip de los servidores donde vamos a desplegar
 
 Para poder hacer el despliegue en los 2 servidores, (Centos para webserver y Ubuntu para database), debo saber las IP de los mismos para configurar correcamente mi archivo `servidores-toml` 
 
@@ -46,11 +58,10 @@ webserver01   ansible_host=192.168.56.102
 dbserver    ansible_host=192.168.56.103
 ```
 
-
 ---
 ## Ejecución o despliegue de ansible:
 
-- Con esto resuelto verifico que puedo acceder a los mismos, antes tengo que tener generada mi ssh-keygen y correctamente configurada la carpeta donde lo obtengo
+- Con esto resuelto, verifico que puedo acceder a los mismos, antes tengo que tener generada mi ssh-keygen y correctamente configurada la carpeta donde lo obtengo
 `/home/sadmin/.ssh/id_rsa.pub`
 
 ```
@@ -60,7 +71,7 @@ $ ansible-playbook -i inventario/servidores.toml hardening.yml --ask-become-pass
 - Tambien podemos copiarla ejecutando el siguiente comando ssh hacia cada servidor, indico el usuario donde copiarla `sysadmin`
 
 ```ssh
-ssh-copy-id sysadmin@192.168.56.XXX    me pide la contraseña de sysadmin 
+ssh-copy-id -f sysadmin@192.168.56.XXX    me pide la contraseña de sysadmin 
 ```
 
 - Verifico que puedo acceder y ejecutar un modulo en el servidor remoto
@@ -72,6 +83,7 @@ ssh-copy-id sysadmin@192.168.56.XXX    me pide la contraseña de sysadmin
   `--ask-pass` es para que me pida la contraseña de ssh en caso de tener una establecida **"PASSWORD"**
 
 ## Organización de las carpetas de trabajo
+
 
 ```
 Obligatorio-TL-2024
@@ -100,8 +112,18 @@ Obligatorio-TL-2024
 ## Despliegue de playbook en el webserver
 
 Para deplegar el playbook dy montar el `webserver` tengo que ejecutar lo siguiente en mi controller
+
+ - Verificar que el archivo app.properties apunte a la IP de la base de datos antes de desplegar!
+
 ```
-$ ansible-playbook -i inventario/servidores.toml webserver.yml
+tipoDB=mysql
+jdbcURL=jdbc:mysql://192.168.56.103:3306/todo
+jdbcUsername=sysadmin
+jdbcPassword=tlxadmin
+```
+
+```
+$ ansible-playbook -i inventario/servidores.toml instalar.todo.yml --ask-become-pass
 ```
 
 
@@ -122,7 +144,7 @@ $ ansible-playbook -i inventario/servidores.toml database.yml
 
 ## Referencias
 
-### Para acceder por SSH y establecer IP Fija
+### Para acceder por SSH
 
 [Modulo para enviar clae publica SSH](https://docs.ansible.com/ansible/latest/collections/ansible/posix/authorized_key_module.html)
 
@@ -131,32 +153,34 @@ $ ansible-playbook -i inventario/servidores.toml database.yml
 ---
 #### Primero instalo JAVA
 
-    - name: Instalo el JAVA SDK
+1. Instalo el JAVA SDK
 
 [INSTALO-JAVA](https://www.geeksforgeeks.org/how-to-install-java-using-ansible-playbook/)
 
 #### Primero bajo y extraigo el Tomcat
-    - name: Bajo el Tomcat y extrae en el directorio /opt/.
+
+2. Instalo Tomcat
 
  [INSTALO-TOMCAT](https://github.com/jmutai/tomcat-ansible/blob/master/tomcat-setup.yml)   
 
 #### abro puertos necesarios
 
-    - name: abrir los puertos 8080 y 8443 en el firewall.
+3. Abro los puertos 8080 y 8443 en el firewall.
 
-[ABRO puertos](https://docs.ansible.com/ansible/latest/collections/ansible/posix/firewalld_module.html)
+[ABRO PUERTOS](https://docs.ansible.com/ansible/latest/collections/ansible/posix/firewalld_module.html)
 
 #### Despliego app todo.war
 
-    - name: Despliegue de la aplicación ToDo.war en Tomcat.
+4. Despliegue de la aplicación ToDo.war en Tomcat.
 
 [COPIO APP](https://docs.ansible.com/ansible/latest/collections/ansible/builtin/copy_module.html#ansible-collections-ansible-builtin-copy-module)
 
 #### cargo la configuración de todo.war
 
-    - name: Se configura la aplicación ToDo.war mediante un archivo de configuración.
+5. Se configura la aplicación ToDo.war mediante un archivo de configuración.
 
-[Copio configuracion](https://docs.ansible.com/ansible/latest/collections/ansible/builtin/template_module.html#ansible-collections-ansible-builtin-template-module)
+[CCOPIO CONFIG](https://docs.ansible.com/ansible/latest/collections/ansible/builtin/template_module.html#ansible-collections-ansible-builtin-template-module)
+
 ---
 ### Referencias utilizadas para el despliegue de la base de datos
 ---
