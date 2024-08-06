@@ -1,5 +1,5 @@
 [centos]
-webserver01    ansible_host=192.168.56.103
+webserver01    ansible_host=192.168.56.105
 
 [ubuntu]
 dbserver    ansible_host=192.168.56.104
@@ -8,7 +8,7 @@ dbserver    ansible_host=192.168.56.104
 dbserver    ansible_host=192.168.56.104
 
 [webserver]
-webserver01   ansible_host=192.168.56.103
+webserver01   ansible_host=192.168.56.105
 
 [linux:children]
 centos
