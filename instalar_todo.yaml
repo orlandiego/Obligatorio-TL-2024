@@ -35,20 +35,19 @@
       ansible.builtin.copy: 
         src: ./Files/todo.war
         dest: /var/lib/tomcat/webapps/todo.war
-
-    - name: Copiar app.properties
-      ansible.builtin.copy:
-        src: ./Files/app.properties
-        dest: /var/lib/tomcat/webapps/todo/WEB-INF/app.properties
-
-
-    - name: Verifico que exista un directorio donde cargar la configuracion de todo.war
+ 
+    - name: Verifico que exista un directorio donde cargar la configuracion d>
       ansible.builtin.file:
-        path: /var/lib/tomcat/conf/Catalina/localhost
+        path: /opt/config
         state: directory
         owner: tomcat
         group: tomcat
         mode: '0755'
+
+    - name: Copiar app.properties
+      ansible.builtin.copy:
+        src: ./Files/app.properties
+        dest: /opt/config/app.properties
 
     - name: Configurar la base de datos en la aplicación ToDo
       ansible.builtin.template:
