@@ -32,9 +32,15 @@
         permanent: yes
 
     - name: Copiar la aplicación ToDo a directorio de Tomcat
-      copy:
-        src: /home/sysadmin/Downloads/todo.war
+      ansible.builtin.copy: 
+        src: ./Files/todo.war
         dest: /var/lib/tomcat/webapps/todo.war
+
+    - name: Copiar app.properties
+      ansible.builtin.copy:
+        src: ./Files/app.properties
+        dest: /var/lib/tomcat/webapps/todo/WEB-INF/app.properties
+
 
     - name: Verifico que exista un directorio donde cargar la configuracion de todo.war
       ansible.builtin.file:
@@ -45,11 +51,11 @@
         mode: '0755'
 
     - name: Configurar la base de datos en la aplicación ToDo
-      template:
+      ansible.builtin.template:
         src: ./Template/todo_db_config.xml.j2
         dest: /var/lib/tomcat/conf/Catalina/localhost/todo.xml
 
     - name: Reiniciar Tomcat para desplegar todo
-      systemd:
+      ansible.builtin.systemd_service:
         name: tomcat
         state: restarted

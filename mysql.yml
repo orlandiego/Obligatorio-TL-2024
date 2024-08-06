@@ -2,25 +2,28 @@
 - name: Configurar base de datos MySQL
   hosts: database
   become: true
-  user: sysadmin
   tasks:
     - name: Crear el usuario root y otorgar permisos
       ansible.builtin.shell: |
-        mysql -u root -p'root_password' -e "CREATE USER 'root'@'%' IDENTIFIED BY 'new_password';"
-        mysql -u root -p'root_password' -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION;"
-        mysql -u root -p'root_password' -e "FLUSH PRIVILEGES;"
+        mysql -u root -p'{{ db_root_password }}' -e "CREATE USER 'root'@'%' IDENTIFIED BY '{{ db_root_password }}';"
+        mysql -u root -p'{{ db_root_password }}' -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION;"
+        mysql -u root -p'{{ db_root_password }}' -e "FLUSH PRIVILEGES;"
       args:
         executable: /bin/bash
       environment:
-        MYSQL_PWD: dbadmin
+        MYSQL_PWD: "{{ db_root_password }}"
+      vars:
+        db_root_password: "tlxadmin"
 
     - name: Crear base de datos todo
       ansible.builtin.shell: |
-        mysql -u root -p'new_password' -e "CREATE DATABASE IF NOT EXISTS todo;"
+        mysql -u root -p'{{ db_root_password }}' -e "CREATE DATABASE IF NOT EXISTS todo;"
       args:
         executable: /bin/bash
       environment:
-        MYSQL_PWD: dbadmin
+        MYSQL_PWD: "{{ db_root_password }}"
+      vars:
+        db_root_password: "tlxadmin"
 
     - name: Copiar archivo SQL al servidor
       ansible.builtin.copy:
@@ -29,38 +32,44 @@
 
     - name: Importar archivo SQL
       ansible.builtin.shell: |
-        mysql -u root -p'new_password' todo < /tmp/todo.sql
+        mysql -u root -p'{{ db_root_password }}' todo < /tmp/todo.sql
       args:
         executable: /bin/bash
       environment:
-        MYSQL_PWD: dbadmin
+        MYSQL_PWD: "{{ db_root_password }}"
+      vars:
+        db_root_password: "tlxadmin"
 
 ## Creo usuarios y los muestro al final para verificar:
 
     - name: Agregar usuarios de prueba a la base de datos
       ansible.builtin.shell: |
-        mysql -u root -p'new_password' -e "
+        mysql -u root -p'{{ db_root_password }}' -e "
         USE todo;
-        INSERT INTO users (first_name, last_name, username, password) VALUES ('John', 'Doe', 'jdoe', 'password123');
-        INSERT INTO users (first_name, last_name, username, password) VALUES ('Jane', 'Smith', 'jsmith', 'password456');
-        INSERT INTO users (first_name, last_name, username, password) VALUES ('Alice', 'Johnson', 'ajohnson', 'password789');
+        INSERT INTO users (first_name, last_name, username, password) VALUES ('John', 'Doe', 'johndoe', 'password1');
+        INSERT INTO users (first_name, last_name, username, password) VALUES ('Jane', 'Doe', 'janedoe', 'password2');
+        INSERT INTO users (first_name, last_name, username, password) VALUES ('Jim', 'Beam', 'jimbeam', 'password3');
         "
       args:
         executable: /bin/bash
       environment:
-        MYSQL_PWD: dbadmin
+        MYSQL_PWD: "{{ db_root_password }}"
+      vars:
+        db_root_password: "tlxadmin"
 
     - name: Consultar y mostrar los usuarios creados
       ansible.builtin.shell: |
-        mysql -u root -p'new_password' -e "
+        mysql -u root -p'{{ db_root_password }}' -e "
         USE todo;
         SELECT * FROM users;
         "
       args:
         executable: /bin/bash
       environment:
-        MYSQL_PWD: dbadmin
+        MYSQL_PWD: "{{ db_root_password }}"
       register: query_result
+      vars:
+        db_root_password: "tlxadmin"
 
     - name: Mostrar resultado de la consulta
       ansible.builtin.debug:

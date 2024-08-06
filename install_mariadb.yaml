@@ -6,7 +6,7 @@
     db_root_password: "tlxadmin"
     db_user: "sysadmin"
     db_user_password: "tlxadmin"
-    db_name: "DatabaseTSL"
+    db_name: "todo"
   tasks:
     - name: Instalar PyMySQL
       ansible.builtin.apt:
@@ -19,6 +19,13 @@
         name: mariadb-server
         state: present
         update_cache: true
+
+    - name: Cambiar la configuracion para escuchar en todas las interfaces
+      ansible.builtin.lineinfile:
+        path: /etc/mysql/mariadb.conf.d/50-server.cnf
+        regexp: '^bind-address'
+        line: 'bind-address         = 0.0.0.0'
+      notify: Restart mariadb
 
     - name: Iniciar y habilitar el servicio de MariaDB
       ansible.builtin.systemd:
@@ -68,3 +75,10 @@
       ansible.builtin.file:
         path: /root/.my.cnf
         state: absent
+
+  handlers:
+
+    - name: Restart mariadb
+      ansible.builtin.systemd_service: 
+        name: mariadb
+        state: restarted
